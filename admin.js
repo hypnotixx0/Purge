@@ -3,6 +3,7 @@
 
   const KEY = 'unhiindev';
 
+  // Elements
   const keyGate = document.getElementById('admin-key-gate');
   const keyInput = document.getElementById('admin-key-input');
   const keySubmit = document.getElementById('admin-key-submit');
@@ -30,66 +31,117 @@
   keySubmit.addEventListener('click', validateKey);
   keyInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') validateKey(); });
 
-  // Form elements
+  // Helpers
   const el = (id)=>document.getElementById(id);
+  const safe = (s)=> (s||'').replace(/`/g,'\`');
 
-  function toBool(v){ return !!v; }
-  function safe(s){ return (s||'').replace(/`/g,'\`'); }
-
-  function generateJsSnippet(data){
-    const tags = data.tags
-      .split(',')
-      .map(t=>t.trim())
-      .filter(Boolean)
-      .map(t=>`"${t}"`)
-      .join(', ');
-
-    const idLine = data.id ? `id: ${data.id},` : `// Choose the next available integer ID
-                id: 0, // TODO: replace with next ID`;
-
-    return `{
-                ${idLine}
-                name: "${safe(data.name)}",
-                description: "${safe(data.description)}",
-                category: "${safe(data.category)}",
-                genre: "${safe(data.genre)}",
-                icon: "${safe(data.icon || '🎮')}",
-                file: "${safe(data.file)}",
-                featured: false,
-                premium: ${toBool(data.premium)},
-                earlyAccess: ${toBool(data.early)},
-                tags: [${tags}]
-            },`;
-  }
-
-  function generateHtmlSnippet(data){
+  function buildBrowserTabHtml(data){
     const title = safe(data.name || 'New Game');
-    const pathInfo = `<!-- Save this file at: ${safe(data.file)} -->`;
-    return `${pathInfo}
-<!DOCTYPE html>
+    const icon = safe(data.icon || '🎮');
+    const src  = safe(data.embed || '');
+    const addr = (data.file && data.file.split('/').pop()) || (src ? src.split('/').pop() : '');
+
+    // Exact structure and absolute paths per your template
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${title} - /Purge</title>
-  <link rel="icon" href="../assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
-  <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title} - /Purge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/games/game-browser.css">
+    <script src="/tab-cloaking.js"></script>
+    <script src="/theme-manager.js"></script>
 </head>
 <body>
-  <div class="background"></div>
-  <div class="container">
-    <h1>${title}</h1>
-    <p class="subtitle">Wrapper page for ${title}. Replace this content with your game embed or redirect.</p>
-    <div style="margin-top:1rem;">
-      <a class="btn btn-primary" href="../index.html">Back to Home</a>
-      <a class="btn btn-secondary" href="../games.html">Back to Games</a>
+    <div class="browser-container">
+        <!-- Browser Tabs -->
+        <div class="browser-tabs">
+            <div class="tab active">
+                <span class="tab-icon">${icon}</span>
+                <span>${title}</span>
+                <button class="tab-close" onclick="closeGame()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Browser Toolbar -->
+        <div class="browser-toolbar">
+            <div class="toolbar-left">
+                <button class="toolbar-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="toolbar-btn" onclick="goForward()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="toolbar-btn" onclick="refreshGame()">
+                    <i class="fas fa-redo"></i>
+                </button>
+                <button class="toolbar-btn" onclick="goHome()">
+                    <i class="fas fa-home"></i>
+                </button>
+            </div>
+            
+            <div class="toolbar-center">
+                <div class="address-bar">
+                    <i class="fas fa-lock"></i>
+                    <span id="current-url">${addr}</span>
+                </div>
+            </div>
+            
+            <div class="toolbar-right">
+                <button class="toolbar-btn" onclick="openInNewTab()" title="Open in new tab">
+                    <i class="fas fa-external-link-alt"></i>
+                </button>
+                <button class="toolbar-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Game Content -->
+        <div class="browser-content">
+            <iframe 
+                src="${src}" 
+                id="game-frame"
+                frameborder="0"
+                allowfullscreen
+            ></iframe>
+        </div>
     </div>
-  </div>
+
+    <script src="/games/game-browser.js"></script>
+    <script src="/games/theme-tab-updater.js"></script>
+    <script>
+        // Update browser tab title with theme
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.themeManager) {
+                const theme = window.themeManager.getCurrentTheme();
+                const themeName = window.themeManager.getThemes()[theme]?.name || 'Dark';
+                document.title = `${title} - ${'${themeName}'} Theme - /Purge`;
+            }
+        });
+    </script>
 </body>
 </html>`;
   }
 
-  function generate(){
+  function download(filename, content){
+    const blob = new Blob([content], {type: 'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function onDownload(){
     const data = {
       name: el('game-name').value,
       description: el('game-description').value,
@@ -97,44 +149,36 @@
       genre: el('game-genre').value,
       icon: el('game-icon').value,
       file: el('game-file').value,
+      embed: el('game-embed-url').value,
       premium: el('game-premium').checked,
       early: el('game-early').checked,
       tags: el('game-tags').value,
       id: parseInt(el('game-id').value, 10) || null,
     };
 
-    if (!data.name || !data.description || !data.genre || !data.file) {
-      alert('Please fill out Name, Description, Genre, and File Path');
+    if (!data.name || !data.description || !data.genre || !data.file || !data.embed) {
+      alert('Please fill out Name, Description, Genre, File Path, and Embed URL');
       return;
     }
 
-    el('snippet-js').textContent = generateJsSnippet(data);
-    el('snippet-html').textContent = generateHtmlSnippet(data);
+    let filename = (data.file || 'games/newgame.html').split('/').pop();
+    if (!filename.endsWith('.html')) filename += '.html';
+
+    const html = buildBrowserTabHtml(data);
+    download(filename, html);
   }
 
-  function reset(){
-    ['game-name','game-description','game-genre','game-icon','game-file','game-tags','game-id'].forEach(id=>{ el(id).value=''; });
+  function onReset(){
+    ['game-name','game-description','game-genre','game-icon','game-file','game-tags','game-id','game-embed-url']
+      .forEach(id=>{ const i = el(id); if (i) i.value=''; });
     el('game-category').value = 'idle';
     el('game-premium').checked = false;
     el('game-early').checked = false;
-    el('snippet-js').textContent = '';
-    el('snippet-html').textContent = '';
   }
 
-  document.getElementById('generate-snippets').addEventListener('click', generate);
-  document.getElementById('reset-form').addEventListener('click', reset);
-
-  // Copy buttons
-  document.querySelectorAll('.admin-btn.copy').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const target = btn.getAttribute('data-copy-target');
-      const pre = document.querySelector(target);
-      if (!pre) return;
-      const text = pre.textContent;
-      navigator.clipboard.writeText(text).then(()=>{
-        btn.innerHTML = '<i class="fas fa-check"></i> Copied';
-        setTimeout(()=>{ btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 1200);
-      });
-    });
-  });
+  // Bind buttons
+  const dlBtn = document.getElementById('download-html');
+  const resetBtn = document.getElementById('reset-form');
+  if (dlBtn) dlBtn.addEventListener('click', onDownload);
+  if (resetBtn) resetBtn.addEventListener('click', onReset);
 })();
