@@ -1,14 +1,13 @@
 class PremiumChat {
     constructor() {
         this.firebaseConfig = {
-            // Replace with your Firebase config
-            apiKey: "AIzaSyDummyKeyForDemo",
-            authDomain: "purge-chat-demo.firebaseapp.com",
-            databaseURL: "https://purge-chat-demo-default-rtdb.firebaseio.com",
-            projectId: "purge-chat-demo",
-            storageBucket: "purge-chat-demo.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef"
+            apiKey: "AIzaSyCuDjWifyobeL01UZVvE7tB5VChypqEnT0",
+            authDomain: "purgechat.firebaseapp.com",
+            databaseURL: "https://purgechat-default-rtdb.firebaseio.com",
+            projectId: "purgechat",
+            storageBucket: "purgechat.firebasestorage.app",
+            messagingSenderId: "629569155958",
+            appId: "1:629569155958:web:6c30b522a4301ce1810057"
         };
         
         this.messages = [];
@@ -106,6 +105,7 @@ class PremiumChat {
     loadUsername() {
         if (this.username) {
             this.showChatInterface();
+            this.connectToChat();
         }
     }
     
@@ -141,63 +141,45 @@ class PremiumChat {
     }
     
     initFirebase() {
-        // Mock Firebase for demo - replace with actual Firebase SDK
-        this.mockFirebase = {
-            messages: [],
-            listeners: [],
-            
-            ref: (path) => ({
-                on: (event, callback) => {
-                    this.mockFirebase.listeners.push({ event, callback });
-                    // Send initial messages
-                    setTimeout(() => callback(this.mockFirebase.messages), 100);
-                },
-                
-                push: (data) => {
-                    const message = {
-                        id: Date.now().toString(),
-                        timestamp: Date.now(),
-                        ...data
-                    };
-                    this.mockFirebase.messages.push(message);
-                    this.mockFirebase.messages = this.mockFirebase.messages.slice(-this.maxMessages);
-                    
-                    // Notify listeners
-                    this.mockFirebase.listeners.forEach(listener => {
-                        if (listener.event === 'value') {
-                            listener.callback(this.mockFirebase.messages);
-                        }
-                    });
-                    
-                    return { key: message.id };
-                },
-                
-                child: (key) => ({
-                    remove: () => {
-                        this.mockFirebase.messages = this.mockFirebase.messages.filter(msg => msg.id !== key);
-                        this.mockFirebase.listeners.forEach(listener => {
-                            if (listener.event === 'value') {
-                                listener.callback(this.mockFirebase.messages);
-                            }
-                        });
-                    }
-                })
-            })
-        };
-        
+        try {
+            if (!firebase.apps || firebase.apps.length === 0) {
+                firebase.initializeApp(this.firebaseConfig);
+            }
+        } catch (e) {
+            // already initialized or failed; continue
+        }
+
+        // Ensure anonymous sign-in (optional now, required if you tighten rules)
+        if (firebase.auth) {
+            firebase.auth().onAuthStateChanged((user) => {
+                if (!user) {
+                    firebase.auth().signInAnonymously().catch(() => {});
+                }
+            });
+        }
+
+        this.db = firebase.database();
+        this.messagesRef = this.db.ref('rooms/global/messages');
         this.updateStatus('connected', 'Connected to chat');
     }
     
     connectToChat() {
-        const messagesRef = this.mockFirebase.ref('messages');
-        
-        messagesRef.on('value', (snapshot) => {
-            this.messages = snapshot || [];
+        if (!this.messagesRef) return;
+        this.messages = [];
+        // Load last N and stream new ones
+        this.messagesRef.limitToLast(this.maxMessages).on('child_added', (snap) => {
+            const val = snap.val();
+            if (!val) return;
+            const msg = {
+                id: snap.key,
+                username: val.username,
+                text: val.text,
+                timestamp: val.timestamp || Date.now(),
+                isModerator: !!val.isModerator
+            };
+            this.messages.push(msg);
             this.renderMessages();
         });
-        
-        // No demo messages in production
-        // this.addDemoMessages();
     }
     
     addDemoMessages() {
@@ -363,7 +345,14 @@ class PremiumChat {
         };
         
         // Send to Firebase
-        this.mockFirebase.ref('messages').push(message);
+        if (this.messagesRef) {
+            this.messagesRef.push({
+                username: message.username,
+                text: message.text,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                isModerator: message.isModerator
+            });
+        }
         
         // Notify user on send
         this.notify('Message sent', 'Your message has been posted');
@@ -379,7 +368,9 @@ class PremiumChat {
     deleteMessage(messageId) {
         if (!confirm('Are you sure you want to delete this message?')) return;
         
-        this.mockFirebase.ref('messages').child(messageId).remove();
+        if (this.messagesRef) {
+            this.messagesRef.child(messageId).remove();
+        }
     }
     
     showRateLimitWarning() {
