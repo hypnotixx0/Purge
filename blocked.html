@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Blocked - /Purge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/tooltip.css">
+    <style>
+        .blocked-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .blocked-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            animation: shake 0.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.5));
+        }
+        
+        .tamper-warning {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            50% { 
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+        }
+        
+        .tamper-warning h4 {
+            color: #ef4444;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .tamper-warning p {
+            color: var(--text);
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .blocked-content {
+            background: var(--dark);
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 3rem;
+            max-width: 600px;
+            margin-top: 2rem;
+            border-top: 3px solid #ef4444;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .guilt-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .steps {
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 8px;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .home-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .home-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .home-logo {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.3));
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 12px;
+            padding: 0.5rem;
+            border: 1px solid var(--light-gray);
+        }
+
+        .home-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.5));
+            border-color: var(--primary);
+        }
+
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            display: block;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Home Logo -->
+    <div class="home-logo" onclick="window.location.href='index.html'">
+        <img src="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" alt="/Purge Logo" class="logo-img">
+    </div>
+
+    <!-- Blocked Content -->
+    <div class="blocked-container">
+        <div class="blocked-icon">🔒</div>
+        
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; color: #ef4444;">Premium Content</h1>
+        <p style="font-size: 1.2rem; color: var(--text); margin-bottom: 2rem;">
+            This section requires a premium access key
+        </p>
+
+        <div class="blocked-content">
+            <div class="guilt-message">
+                <h3 style="color: #ef4444; margin-bottom: 1rem;">🔒 Premium Content</h3>
+                <p style="margin: 0; color: var(--text);">
+                    This section requires a premium access key. Support the site and unlock all games, apps, and tools!
+                </p>
+            </div>
+            
+            <div class="tamper-warning">
+                <h4>
+                    <i class="fas fa-shield-alt"></i>
+                    Security Notice
+                </h4>
+                <p>
+                    <strong>⚠️ Stop trying to tamper with the system!</strong><br>
+                    All access attempts are monitored and logged. Tampering with sessionStorage, console manipulation, or any bypass attempts will result in immediate redirection. Get a valid key to access content.
+                </p>
+            </div>
+
+            <h3>Here's how to get access:</h3>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <strong>Join our Discord</strong>
+                        <p>Get connected with our community and purchase options</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <strong>Purchase a premium key</strong>
+                        <p>Get lifetime access to all current and future content</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <strong>Unlock everything</strong>
+                        <p>Use your premium key to access all games, apps, and tools</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="https://discord.gg/bS7Xgvyuu5" target="_blank" class="home-btn" style="background: #5865F2;">
+                    <i class="fab fa-discord"></i>
+                    Join Discord
+                </a>
+                
+                <a href="index.html" class="home-btn">
+                    <i class="fas fa-home"></i>
+                    Back to Home
+                </a>
+            </div>
+
+            <div style="margin-top: 2rem; padding: 1rem; background: rgba(139, 92, 246, 0.05); border-radius: 8px;">
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text);">
+                    <i class="fas fa-crown" style="color: #eab308;"></i>
+                    <strong>Premium benefits:</strong> All current content + future updates + priority support
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Auto-redirect script -->
+    <script>
+        // Prevent staying on blocked page - auto-redirect after 10 seconds
+        let redirectTimer = setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 10000);
+        
+        // Clear auth on blocked page
+        try {
+            sessionStorage.removeItem('purge_auth');
+            sessionStorage.removeItem('purge_auth_level');
+            sessionStorage.removeItem('purge_auth_timestamp');
+            sessionStorage.removeItem('purge_auth_key');
+            sessionStorage.removeItem('purge_auth_hash');
+        } catch (e) {
+            console.error('Error clearing auth:', e);
+        }
+        
+        // Show tampering warning tooltip
+        function showTamperWarning() {
+            const tooltip = document.createElement('div');
+            tooltip.id = 'tamper-tooltip';
+            tooltip.className = 'custom-tooltip';
+            tooltip.innerHTML = `
+                <div class="tooltip-content" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.1);">
+                    <span class="tooltip-message">
+                        <i class="fas fa-shield-alt" style="color: #ef4444; margin-right: 0.5rem;"></i>
+                        <strong>⚠️ Security Alert:</strong> Stop trying to tamper with the system! All attempts are monitored and will result in immediate redirection.
+                    </span>
+                    <button class="tooltip-close" onclick="this.closest('.custom-tooltip').remove()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(tooltip);
+            
+            // Apply theme colors
+            setTimeout(() => {
+                const root = getComputedStyle(document.documentElement);
+                const primary = root.getPropertyValue('--primary').trim() || '#8B5CF6';
+                const dark = root.getPropertyValue('--dark').trim() || '#111113';
+                const text = root.getPropertyValue('--text').trim() || '#cbd5e1';
+                const glowColor = root.getPropertyValue('--glow-color').trim() || 'rgba(239, 68, 68, 0.3)';
+                
+                tooltip.style.setProperty('--tooltip-primary', '#ef4444');
+                tooltip.style.setProperty('--tooltip-dark', dark);
+                tooltip.style.setProperty('--tooltip-text', text);
+                tooltip.style.setProperty('--tooltip-glow', glowColor);
+                
+                // Animate in
+                setTimeout(() => {
+                    tooltip.classList.add('show');
+                }, 100);
+            }, 100);
+            
+            // Auto-hide after 15 seconds
+            setTimeout(() => {
+                if (tooltip.parentNode) {
+                    tooltip.classList.remove('show');
+                    setTimeout(() => {
+                        if (tooltip.parentNode) {
+                            tooltip.remove();
+                        }
+                    }, 300);
+                }
+            }, 15000);
+        }
+        
+        // Show warning after page loads
+        setTimeout(() => {
+            showTamperWarning();
+        }, 1500);
+        
+        // Detect tampering attempts
+        let tamperAttempts = 0;
+        const originalSetItem = sessionStorage.setItem;
+        const originalGetItem = sessionStorage.getItem;
+        
+        // Monitor for tampering
+        setInterval(() => {
+            try {
+                const auth = originalGetItem.call(sessionStorage, 'purge_auth');
+                if (auth === 'authenticated') {
+                    tamperAttempts++;
+                    if (tamperAttempts > 0) {
+                        console.warn('⚠️ Tampering detected!');
+                        showTamperWarning();
+                        // Clear any fake auth
+                        sessionStorage.removeItem('purge_auth');
+                        sessionStorage.removeItem('purge_auth_level');
+                        sessionStorage.removeItem('purge_auth_timestamp');
+                        sessionStorage.removeItem('purge_auth_key');
+                        sessionStorage.removeItem('purge_auth_hash');
+                    }
+                }
+            } catch (e) {
+                // Ignore errors
+            }
+        }, 1000);
+        
+        // Prevent back button bypass
+        window.addEventListener('popstate', () => {
+            window.location.href = 'index.html';
+        });
+        
+        // Prevent staying on page - redirect on any interaction
+        document.addEventListener('click', () => {
+            clearTimeout(redirectTimer);
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 5000);
+        });
+        
+        // Redirect on visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+    
+    <!-- Theme Support -->
+    <script src="/tab-cloaking.js"></script>
+    <script src="/theme-manager.js"></script>
+    <script src="/snow.js"></script>
+</body>
+</html>

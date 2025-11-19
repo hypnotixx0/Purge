@@ -1,0 +1,110 @@
+/* Custom Tooltip Styles - Theme Aware */
+.custom-tooltip {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    z-index: 10000;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    max-width: 90%;
+    width: auto;
+    min-width: 300px;
+}
+
+.custom-tooltip.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: all;
+}
+
+.tooltip-content {
+    background: var(--tooltip-dark, var(--dark, #111113));
+    border: 2px solid var(--tooltip-primary, var(--primary, #8B5CF6));
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        0 0 20px var(--tooltip-glow, var(--glow-color, rgba(139, 92, 246, 0.3)));
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.tooltip-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--tooltip-primary, rgba(139, 92, 246, 0.1)), transparent);
+    transition: left 0.6s ease;
+}
+
+.tooltip-content:hover::before {
+    left: 100%;
+}
+
+.tooltip-message {
+    flex: 1;
+    color: var(--tooltip-text, var(--text, #cbd5e1));
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.tooltip-close {
+    background: none;
+    border: none;
+    color: var(--tooltip-text, var(--text, #cbd5e1));
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.tooltip-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .custom-tooltip {
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        transform: translateY(100px);
+        max-width: none;
+        min-width: auto;
+        width: calc(100% - 2rem);
+    }
+    
+    .custom-tooltip.show {
+        transform: translateY(0);
+    }
+    
+    .tooltip-content {
+        padding: 0.875rem 1.25rem;
+    }
+    
+    .tooltip-message {
+        font-size: 0.9rem;
+    }
+}
+

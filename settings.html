@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - /Purge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tooltip.css">
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="page-transitions.css">
+</head>
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Home Logo -->
+    <div class="home-logo" onclick="window.location.href='index.html'">
+        <img src="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" alt="/Purge Logo" class="logo-img">
+    </div>
+
+    <!-- Settings Content -->
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1>⚙️ Settings</h1>
+            <p class="settings-subtitle">Customize your /Purge experience</p>
+        </div>
+
+        <div class="settings-grid">
+            <!-- Theme Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-palette"></i> Appearance</h2>
+                <div class="settings-item">
+                    <label>Current Theme</label>
+                    <div class="theme-preview-box" id="current-theme-preview">
+                        <span id="current-theme-name">Loading...</span>
+                    </div>
+                    <button class="settings-btn" onclick="window.location.href='themes.html'">
+                        <i class="fas fa-cog"></i> Change Theme
+                    </button>
+                </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-shield-alt"></i> Privacy</h2>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="auto-clear-data" onchange="toggleAutoClear()">
+                        Auto-clear data on close
+                    </label>
+                    <p class="settings-desc">Automatically clear browsing data when closing the site</p>
+                </div>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="disable-tracking" onchange="toggleTracking()">
+                        Disable usage tracking
+                    </label>
+                    <p class="settings-desc">Prevent tracking of game plays and statistics</p>
+                </div>
+            </div>
+
+            <!-- Performance Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-tachometer-alt"></i> Performance</h2>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="lazy-loading" checked onchange="toggleLazyLoading()">
+                        Enable lazy loading
+                    </label>
+                    <p class="settings-desc">Load games as you scroll for better performance</p>
+                </div>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="enable-cache" checked onchange="toggleCache()">
+                        Enable caching
+                    </label>
+                    <p class="settings-desc">Cache assets for faster loading</p>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-bell"></i> Notifications</h2>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="achievement-notifications" checked onchange="toggleAchievementNotifications()">
+                        Achievement notifications
+                    </label>
+                    <p class="settings-desc">Show notifications when achievements are unlocked</p>
+                </div>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="game-notifications" checked onchange="toggleGameNotifications()">
+                        Game notifications
+                    </label>
+                    <p class="settings-desc">Show notifications for game events</p>
+                </div>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="chat-tips" checked onchange="toggleChatTips()">
+                        Show chat tips after sending a message
+                    </label>
+                    <p class="settings-desc">Display themed tips (e.g., Try changing themes) after you send a chat message</p>
+                </div>
+                <div class="settings-item">
+                    <label>
+                        <input type="checkbox" id="chat-notifications" checked onchange="toggleChatNotifications()">
+                        Chat notifications
+                    </label>
+                    <p class="settings-desc">Show user notifications when messages are sent</p>
+                </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="settings-section">
+                <h2><i class="fas fa-database"></i> Data Management</h2>
+                <div class="settings-item">
+                    <button class="settings-btn danger" onclick="exportSettings()">
+                        <i class="fas fa-download"></i> Export Settings
+                    </button>
+                    <button class="settings-btn" onclick="importSettings()">
+                        <i class="fas fa-upload"></i> Import Settings
+                    </button>
+                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="handleImportFile(event)">
+                </div>
+                <div class="settings-item">
+                    <button class="settings-btn danger" onclick="resetAllSettings()">
+                        <i class="fas fa-redo"></i> Reset All Settings
+                    </button>
+                    <p class="settings-desc">Reset all settings to default values</p>
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="settings-section">
+                <h2><i class="fas fa-info-circle"></i> About</h2>
+                <div class="settings-item">
+                    <p class="settings-desc">
+                        <strong>/Purge</strong><br>
+                        Version 1.0.0<br>
+                        Unblocked games and tools platform
+                    </p>
+                    <button class="settings-btn" onclick="window.location.href='settings.html'">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                    <button class="settings-btn" onclick="window.open('https://discord.gg/bS7Xgvyuu5', '_blank')">
+                        <i class="fab fa-discord"></i> Join Discord
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 /Purge. Anyone posing as this site that isnt unhiin is false.</p>
+    </footer>
+
+    <!-- Load scripts -->
+    <script src="debug.js"></script>
+    <script src="utils.js"></script>
+    <script src="tab-cloaking.js"></script>
+    <script src="theme-manager.js"></script>
+    <script src="snow.js"></script>
+    <script src="tooltip-manager.js"></script>
+    <script src="back-to-top.js"></script>
+    <script src="accessibility.js"></script>
+    <script src="settings.js"></script>
+    <script src="page-transitions.js"></script>
+</body>
+</html>
+

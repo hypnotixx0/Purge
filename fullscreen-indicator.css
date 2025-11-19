@@ -1,0 +1,48 @@
+/* fullscreen-indicator.css - Fullscreen indicator styles */
+.fullscreen-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--primary);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    z-index: 99998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+
+.fullscreen-indicator.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.fullscreen-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--white);
+}
+
+.fullscreen-content i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.fullscreen-content span {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.fullscreen-content small {
+    font-size: 0.85rem;
+    color: var(--text);
+    opacity: 0.8;
+}
+

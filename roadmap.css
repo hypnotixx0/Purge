@@ -1,0 +1,304 @@
+/* Roadmap Specific Styles */
+.roadmap-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    padding-top: 6rem;
+}
+
+.home-logo {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.3));
+    background: rgba(10, 10, 10, 0.8);
+    border-radius: 12px;
+    padding: 0.5rem;
+    border: 1px solid var(--light-gray);
+}
+
+.home-logo:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.5));
+    border-color: var(--primary);
+}
+
+.logo-img {
+    width: 48px;
+    height: 48px;
+    display: block;
+    border-radius: 8px;
+}
+
+/* Roadmap Header */
+.roadmap-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.roadmap-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.roadmap-subtitle {
+    font-size: 1.2rem;
+    color: var(--text);
+    font-weight: 300;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+    opacity: 0.3;
+}
+
+/* Timeline Phases */
+.timeline-phase {
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.phase-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-left: 4rem;
+}
+
+.phase-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+/* Phase Badges */
+.phase-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.phase-badge.completed {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.phase-badge.in-progress {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.phase-badge.upcoming {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.phase-badge.future {
+    background: rgba(139, 92, 246, 0.2);
+    color: var(--primary);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Milestones */
+.phase-content {
+    padding-left: 4rem;
+}
+
+.milestone {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: var(--dark);
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.milestone::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+}
+
+.milestone:hover {
+    transform: translateX(8px);
+    border-color: var(--primary);
+    box-shadow: 0 5px 20px rgba(139, 92, 246, 0.1);
+}
+
+.milestone.completed::before {
+    background: #22c55e;
+    border-color: #22c55e;
+}
+
+.milestone.in-progress::before {
+    background: #eab308;
+    border-color: #eab308;
+    animation: pulse 2s infinite;
+}
+
+.milestone.upcoming::before {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.milestone.future::before {
+    background: var(--primary);
+    border-color: var(--primary);
+    opacity: 0.5;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.milestone-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.milestone-content {
+    flex: 1;
+}
+
+.milestone-content h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+}
+
+.milestone-content p {
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.milestone-content small {
+    color: var(--text);
+    opacity: 0.7;
+    font-size: 0.8rem;
+}
+
+/* Support Section */
+.support-section {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2rem;
+    background: var(--dark);
+    border: 1px solid var(--light-gray);
+    border-radius: 16px;
+    border-top: 3px solid var(--primary);
+}
+
+.support-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.support-section p {
+    color: var(--text);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.support-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .roadmap-container {
+        padding: 1rem;
+        padding-top: 5rem;
+    }
+    
+    .home-logo {
+        top: 1rem;
+        left: 1rem;
+    }
+    
+    .logo-img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .roadmap-header h1 {
+        font-size: 2rem;
+    }
+    
+    .timeline::before {
+        left: 20px;
+    }
+    
+    .phase-header {
+        padding-left: 3rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .phase-content {
+        padding-left: 3rem;
+    }
+    
+    .milestone::before {
+        left: -1.5rem;
+    }
+    
+    .support-actions {
+        flex-direction: column;
+    }
+    
+    .support-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Themes - /Purge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/themes.css">
+    <link rel="stylesheet" href="/tooltip.css">
+</head>
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Home Logo -->
+    <div class="home-logo" onclick="window.location.href='index.html'">
+        <img src="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" alt="/Purge Logo" class="logo-img">
+    </div>
+
+    <!-- Themes Content -->
+    <div class="themes-container">
+        <div class="themes-header">
+            <h1>🎨 Themes</h1>
+            <p>Choose your preferred theme. It will apply across all pages automatically.</p>
+        </div>
+        
+        <div class="themes-grid" id="themes-grid">
+            <!-- Themes will be populated by JavaScript -->
+        </div>
+        
+        <div class="themes-info">
+            <p><i class="fas fa-info-circle"></i> Your theme choice is saved and will apply to every page on the site.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 /Purge. Anyone posing as this site that isnt unhiin is false.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/debug.js"></script>
+    <script src="/utils.js"></script>
+    <script src="/tab-cloaking.js"></script>
+    <script src="/theme-manager.js"></script>
+    <script src="/snow.js"></script>
+    <script src="/tooltip-manager.js"></script>
+    <script src="/back-to-top.js"></script>
+    <script src="/accessibility.js"></script>
+    <script>
+        // Populate themes grid
+        document.addEventListener('DOMContentLoaded', function() {
+            const themesGrid = document.getElementById('themes-grid');
+            if (!themesGrid) return;
+            
+            const themes = themeManager.getThemes();
+            const currentTheme = themeManager.getCurrentTheme();
+            
+            themesGrid.innerHTML = Object.entries(themes).map(([key, theme]) => {
+                const isActive = currentTheme === key;
+                const isSeasonal = key === 'christmas';
+                return `
+                <div class="theme-card ${isActive ? 'active' : ''}" onclick="themeManager.setTheme('${key}'); location.reload();">
+                    ${isSeasonal ? '<div class="seasonal-badge"><i class="fas fa-star"></i> Seasonal</div>' : ''}
+                    <div class="theme-preview" style="background: linear-gradient(135deg, ${theme.colors['--primary']}, ${theme.colors['--dark']})">
+                        <div class="theme-name">${theme.name}</div>
+                        <div class="theme-glow" style="box-shadow: 0 0 30px ${theme.colors['--glow-color']}"></div>
+                    </div>
+                    <div class="theme-info">
+                        <h3>${theme.name}</h3>
+                        <div class="theme-colors">
+                            ${Object.entries(theme.colors).slice(0, 3).map(([colorKey, colorValue]) => 
+                                `<div class="color-dot" style="background: ${colorValue}" title="${colorKey}: ${colorValue}"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    ${isActive ? '<div class="active-badge"><i class="fas fa-check"></i> Active</div>' : ''}
+                </div>
+            `;
+            }).join('');
+        });
+    </script>
+</body>
+</html>

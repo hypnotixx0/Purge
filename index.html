@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/Purge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tooltip.css">
+    <link rel="stylesheet" href="themes-widget.css">
+    <link rel="stylesheet" href="tab-manager.css">
+    <link rel="stylesheet" href="quick-stats.css">
+    <link rel="stylesheet" href="achievements.css">
+    <link rel="stylesheet" href="achievements-display.css">
+    <link rel="stylesheet" href="page-transitions.css">
+    <link rel="stylesheet" href="fullscreen-indicator.css">
+    <link rel="stylesheet" href="premium-chat.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div class="spinner-circle"></div>
+            </div>
+            <h2 class="loading-title">Loading your best experience...</h2>
+            <p class="loading-subtitle">Preparing /Purge for you</p>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Themes Widget (replaces canvas) -->
+    <div id="canvas-container"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 id="title">/Purge</h1>
+        <p class="subtitle">Unblocked games and tools</p>
+        
+        <!-- Quick Stats - Above Category Boxes -->
+        <div class="quick-stats" id="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-games-stat">0</div>
+                    <div class="stat-label">Games</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="favorites-stat">0</div>
+                    <div class="stat-label">Favorites</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="plays-stat">0</div>
+                    <div class="stat-label">Total Plays</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Achievements Display -->
+        <div class="achievements-display" id="achievements-display">
+            <!-- Achievements will be loaded here -->
+        </div>
+        
+        <!-- Category Boxes -->
+        <div class="categories">
+                <div class="category-box" onclick="showKeyPopup('games')">
+                    <div class="category-icon">🎮</div>
+                    <h3>Games</h3>
+                    <p>Play hundreds of unblocked games</p>
+                    <div class="box-glow"></div>
+                </div>
+                
+                <div class="category-box" onclick="showKeyPopup('apps')">
+                    <div class="category-icon">📱</div>
+                    <h3>Apps</h3>
+                    <p>Useful Applications</p>
+                    <div class="box-glow"></div>
+                </div>
+                
+                <div class="category-box" onclick="showKeyPopup('tools')">
+                    <div class="category-icon">🛠️</div>
+                    <h3>Tools</h3>
+                    <p>Utilities and productivity tools</p>
+                    <div class="box-glow"></div>
+                </div>
+
+                <div class="category-box" onclick="showKeyPopup('roadmap')">
+                    <div class="category-icon">🗺️</div>
+                    <h3>Roadmap</h3>
+                    <p>Keep up with expected updates</p>
+                    <div class="box-glow"></div>
+                </div>
+
+                            </div>
+        </div>
+    </div>
+
+    <!-- Key Access Popup -->
+    <div id="key-popup" class="popup">
+        <div class="popup-content key-popup-content">
+            <h2>Premium Key Required 🔑</h2>
+            <p>Enter your premium key to access <span id="category-name"></span></p>
+            
+            <div class="key-input-container">
+                <input type="password" id="key-input" placeholder="Enter premium key..." class="key-input">
+                <button id="show-key" class="show-key-btn">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <div class="key-status" id="key-status"></div>
+            
+            <div class="popup-buttons">
+                <button id="submit-key" class="btn btn-primary">
+                    <i class="fas fa-key"></i>
+                    Access Content
+                </button>
+                <button id="close-key-popup" class="btn btn-secondary">
+                    Cancel
+                </button>
+            </div>
+            
+            <div class="key-info">
+                <p><i class="fas fa-info-circle"></i> Premium keys unlock all content and support site development.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discord Popup -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Join Our Community! 💜</h2>
+            <p>Get access to more links, updates, and chat with other users!</p>
+            <div class="popup-buttons">
+                <a href="https://discord.gg/bS7Xgvyuu5" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-discord"></i>
+                    Join Discord
+                </a>
+                <button id="close-popup" class="btn btn-secondary">
+                    Maybe Later
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Link -->
+    <div class="settings-link" onclick="window.location.href='settings.html'" title="Settings">
+        <i class="fas fa-cog"></i>
+    </div>
+    <div class="chat-link" onclick="showKeyPopup('chat')" title="Premium Chat">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Discord Button -->
+    <button id="discord-btn" class="discord-btn">
+        <i class="fab fa-discord"></i>
+        Join Discord
+    </button>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 /Purge. Anyone posing as this site that isnt unhiin is false.</p>
+    </footer>
+
+    <script src="debug.js"></script>
+    <script src="utils.js"></script>
+    <script src="title.js"></script>
+    <script src="discord.js"></script>
+    <script src="description.js"></script>
+    <script src="key-system.js"></script>
+    <script src="loading.js"></script>
+    <script src="tab-cloaking.js"></script>
+    <script src="theme-manager.js"></script>
+    <script src="themes-widget.js"></script>
+    <script src="snow.js"></script>
+    <script src="tooltip-manager.js"></script>
+    <script src="keyboard-shortcuts.js"></script>
+    <script src="keyboard-shortcuts-enhanced.js"></script>
+    <script src="recent-games.js"></script>
+    <script src="game-stats.js"></script>
+    <script src="search-history.js"></script>
+    <script src="help-modal.js"></script>
+    <script src="back-to-top.js"></script>
+    <script src="accessibility.js"></script>
+    <script src="tab-manager.js"></script>
+    <script src="games.js"></script>
+    <script src="achievements.js"></script>
+    <script src="achievements-display.js"></script>
+    <script src="quick-stats.js"></script>
+    <script src="browser-info.js"></script>
+    <script src="page-transitions.js"></script>
+    <script src="fullscreen-indicator.js"></script>
+    <script src="premium-chat.js"></script>
+    
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((reg) => console.log('Service Worker registered'))
+                    .catch((err) => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>

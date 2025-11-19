@@ -1,0 +1,103 @@
+/* achievements-display.css - Achievements display over category boxes */
+.achievements-display {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.achievement-badge {
+    background: var(--dark);
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
+}
+
+.achievement-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.achievement-badge:hover::before {
+    left: 100%;
+}
+
+.achievement-badge:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.achievement-badge.unlocked {
+    border-color: var(--primary);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.achievement-badge.locked {
+    opacity: 0.5;
+}
+
+.achievement-badge-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.achievement-badge-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.achievement-badge-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.achievement-badge-desc {
+    font-size: 0.7rem;
+    color: var(--text);
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.achievement-badge-points {
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .achievements-display {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .achievement-badge {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
