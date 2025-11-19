@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker - /Purge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/games/game-browser.css">
+    <script src="/tab-cloaking.js"></script>
+    <script src="/theme-manager.js"></script>
+</head>
+<body>
+    <div class="browser-container">
+        <!-- Browser Tabs -->
+        <div class="browser-tabs">
+            <div class="tab active">
+                <i class="fas fa-cookie"></i>
+                <span>Cookie Clicker</span>
+                <button class="tab-close" onclick="closeGame()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Browser Toolbar -->
+        <div class="browser-toolbar">
+            <div class="toolbar-left">
+                <button class="toolbar-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="toolbar-btn" onclick="goForward()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="toolbar-btn" onclick="refreshGame()">
+                    <i class="fas fa-redo"></i>
+                </button>
+                <button class="toolbar-btn" onclick="goHome()">
+                    <i class="fas fa-home"></i>
+                </button>
+            </div>
+            
+            <div class="toolbar-center">
+                <div class="address-bar">
+                    <i class="fas fa-lock"></i>
+                    <span id="current-url">cookie-clicker.html</span>
+                </div>
+            </div>
+            
+            <div class="toolbar-right">
+                <button class="toolbar-btn" onclick="openInNewTab()" title="Open in new tab">
+                    <i class="fas fa-external-link-alt"></i>
+                </button>
+                <button class="toolbar-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Game Content -->
+        <div class="browser-content">
+            <iframe 
+                src="/games/cookieclicker/Cookie Clicker (1).html" 
+                id="game-frame"
+                frameborder="0"
+                allowfullscreen
+            ></iframe>
+        </div>
+    </div>
+
+    <script src="/games/game-browser.js"></script>
+    <script src="/games/theme-tab-updater.js"></script>
+</body>
+</html>
