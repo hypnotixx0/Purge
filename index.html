@@ -161,8 +161,25 @@
     <div class="settings-link" onclick="window.location.href='settings.html'" title="Settings">
         <i class="fas fa-cog"></i>
     </div>
-    <div class="chat-link" onclick="showKeyPopup('chat')" title="Premium Chat">
+    <div class="chat-link" onclick="document.getElementById('under-modal').classList.add('active')" title="Premium Chat">
         <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Admin Floating Icon -->
+    <a class="admin-floating" href="admin.html" title="Admin Console (unhiindev)">
+        <i class="fas fa-tools"></i>
+    </a>
+
+    <!-- Under Construction Modal for Chat -->
+    <div id="under-modal" class="under-modal" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="under-card">
+            <h2><i class="fas fa-wrench"></i> Chat Under Construction</h2>
+            <p>We are working on the backend portion of chat to make sure it’s reliable and persistent for everyone. Thanks for your patience.</p>
+            <div class="under-actions">
+                <button class="btn btn-secondary" onclick="document.getElementById('under-modal').classList.remove('active')">Close</button>
+                <a class="btn btn-primary" href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </div>
     </div>
 
     <!-- Discord Button -->

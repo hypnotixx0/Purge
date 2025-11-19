@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Console - /Purge</title>
+  <link rel="icon" href="assets/e1bc9dd5-25b2-4626-9afc-694f3188bac0.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="tooltip.css">
+  <link rel="stylesheet" href="page-transitions.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="background"></div>
+
+  <div class="admin-console-container">
+    <div class="admin-header">
+      <h1><i class="fas fa-tools"></i> Admin Console</h1>
+      <p>Generate game entries for your site. Enter the developer key to continue.</p>
+    </div>
+
+    <div class="admin-key-gate" id="admin-key-gate">
+      <div class="key-box">
+        <input type="password" id="admin-key-input" placeholder="Enter developer key (unhiindev)">
+        <button class="admin-btn primary" id="admin-key-submit"><i class="fas fa-key"></i> Unlock</button>
+      </div>
+      <div class="key-hint">This console is client-side only. It generates snippets you can paste into your code.</div>
+    </div>
+
+    <div class="admin-content" id="admin-content" style="display:none;">
+      <div class="admin-form">
+        <h2>Game Details</h2>
+        <div class="form-grid">
+          <label>
+            <span>Game Name</span>
+            <input type="text" id="game-name" placeholder="e.g., My Great Game" required>
+          </label>
+          <label>
+            <span>Description</span>
+            <input type="text" id="game-description" placeholder="Short description" required>
+          </label>
+          <label>
+            <span>Category</span>
+            <select id="game-category">
+              <option value="idle">Idle</option>
+              <option value="strategy">Strategy</option>
+              <option value="story">Story</option>
+              <option value="action">Action</option>
+              <option value="puzzle">Puzzle</option>
+            </select>
+          </label>
+          <label>
+            <span>Genre</span>
+            <input type="text" id="game-genre" placeholder="e.g., Clicker, Card Game" required>
+          </label>
+          <label>
+            <span>Icon Emoji</span>
+            <input type="text" id="game-icon" placeholder="e.g., 🎮 or 🍪" maxlength="4">
+          </label>
+          <label>
+            <span>File Path</span>
+            <input type="text" id="game-file" placeholder="e.g., games/mygame.html" required>
+          </label>
+          <label>
+            <span>Premium</span>
+            <input type="checkbox" id="game-premium">
+          </label>
+          <label>
+            <span>Early Access</span>
+            <input type="checkbox" id="game-early">
+          </label>
+          <label>
+            <span>Tags (CSV)</span>
+            <input type="text" id="game-tags" placeholder="e.g., action, roguelike, deckbuilder">
+          </label>
+          <label>
+            <span>Game ID (optional)</span>
+            <input type="number" id="game-id" placeholder="leave blank to choose manually">
+          </label>
+        </div>
+        <div class="actions">
+          <button class="admin-btn primary" id="generate-snippets"><i class="fas fa-code"></i> Generate Snippets</button>
+          <button class="admin-btn secondary" id="reset-form"><i class="fas fa-undo"></i> Reset</button>
+        </div>
+      </div>
+
+      <div class="admin-output">
+        <h2>Output</h2>
+        <div class="output-block">
+          <div class="output-header">
+            <span>games.js Entry</span>
+            <button class="admin-btn copy" data-copy-target="#snippet-js"><i class="fas fa-copy"></i> Copy</button>
+          </div>
+          <pre id="snippet-js" class="code"></pre>
+        </div>
+        <div class="output-block">
+          <div class="output-header">
+            <span>Wrapper HTML Stub (optional)</span>
+            <button class="admin-btn copy" data-copy-target="#snippet-html"><i class="fas fa-copy"></i> Copy</button>
+          </div>
+          <pre id="snippet-html" class="code"></pre>
+        </div>
+        <div class="hint">Paste the JS entry into GamesManager.loadGames() array in games.js. Save the HTML wrapper to the path you specified.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
