@@ -24,6 +24,11 @@ class PremiumChat {
         ];
         this.lastNotify = 0;
         
+        // Connection state
+        this.isConnected = false;
+        this.childAddedHandler = null;
+        this.seenMessageIds = new Set();
+        
         this.init();
     }
     
@@ -165,21 +170,34 @@ class PremiumChat {
     
     connectToChat() {
         if (!this.messagesRef) return;
-        this.messages = [];
-        // Load last N and stream new ones
-        this.messagesRef.limitToLast(this.maxMessages).on('child_added', (snap) => {
+        if (this.isConnected) return; // already streaming
+
+        this.isConnected = true;
+
+        // Stable handler to avoid duplicate listeners
+        this.childAddedHandler = (snap) => {
             const val = snap.val();
             if (!val) return;
+            const id = snap.key;
+            if (this.seenMessageIds.has(id)) return; // skip duplicates
+            this.seenMessageIds.add(id);
             const msg = {
-                id: snap.key,
+                id,
                 username: val.username,
                 text: val.text,
                 timestamp: val.timestamp || Date.now(),
                 isModerator: !!val.isModerator
             };
             this.messages.push(msg);
+            // Keep only last maxMessages in cache
+            if (this.messages.length > this.maxMessages) {
+                this.messages = this.messages.slice(-this.maxMessages);
+            }
             this.renderMessages();
-        });
+        };
+
+        // Load last N and stream new ones
+        this.messagesRef.limitToLast(this.maxMessages).on('child_added', this.childAddedHandler);
     }
     
     addDemoMessages() {
@@ -443,11 +461,15 @@ class PremiumChat {
         document.getElementById('chat-overlay').classList.add('active');
         document.getElementById('chat-container').classList.add('active');
         document.body.style.overflow = 'hidden';
+
+        // Render cached messages immediately so history appears on reopen
+        this.renderMessages();
         
         // Focus input if username is set
         if (this.username) {
             setTimeout(() => {
-                document.getElementById('chat-input').focus();
+                const input = document.getElementById('chat-input');
+                if (input) input.focus();
             }, 300);
         }
     }
