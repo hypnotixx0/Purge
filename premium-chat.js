@@ -196,36 +196,12 @@ class PremiumChat {
             this.renderMessages();
         });
         
-        // Add some demo messages
-        this.addDemoMessages();
+        // No demo messages in production
+        // this.addDemoMessages();
     }
     
     addDemoMessages() {
-        const demoMessages = [
-            {
-                id: '1',
-                username: 'System',
-                text: 'Welcome to Premium Chat! Be respectful and have fun!',
-                timestamp: Date.now() - 60000,
-                isSystem: true
-            },
-            {
-                id: '2',
-                username: 'Alex',
-                text: 'Hey everyone! How\'s it going?',
-                timestamp: Date.now() - 45000
-            },
-            {
-                id: '3',
-                username: 'Sam',
-                text: 'Great! Loving the new themes on this site',
-                timestamp: Date.now() - 30000
-            }
-        ];
-        
-        demoMessages.forEach(msg => {
-            this.mockFirebase.ref('messages').push(msg);
-        });
+        // Intentionally empty - no filler users/messages
     }
     
     renderMessages() {
@@ -497,6 +473,15 @@ let premiumChat;
 
 // Initialize when premium key is validated
 window.initPremiumChat = function() {
+    // If user has already validated chat this session, bypass key popup logic
+    if (sessionStorage.getItem('purge_chat_access') === 'true') {
+        if (!premiumChat) {
+            premiumChat = new PremiumChat();
+            window.premiumChat = premiumChat;
+        }
+        premiumChat.show();
+        return;
+    }
     if (!premiumChat) {
         premiumChat = new PremiumChat();
         window.premiumChat = premiumChat;

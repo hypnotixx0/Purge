@@ -6,7 +6,7 @@ class TabManager {
         this.tabCounter = 0;
         // Mapping of wrapper pages to actual game files
         this.wrapperGameMap = {
-            'games/cookieclicker.html': '/games/cookieclicker/Cookie Clicker (1).html',
+            'games/cookieclicker.html': 'games/cookieclicker/Cookie Clicker (1).html',
             'games/balatro.html': 'https://smartsteps.eduarmor.com/balatro/index.html',
             'games/kindergarden1.html': 'games/kindergarden1/story.html',
             'games/kindergarden2.html': 'games/kindergarden2/story.html'
@@ -199,6 +199,9 @@ class TabManager {
             mainContent.style.display = 'none';
         }
 
+        // Ensure content area is visible when adding tab content
+        contentArea.style.display = 'block';
+
         // Create iframe for this tab
         const iframe = document.createElement('iframe');
         iframe.id = `iframe-${tab.id}`;
@@ -237,26 +240,21 @@ class TabManager {
             if (actualUrl.startsWith('http://') || actualUrl.startsWith('https://')) {
                 return actualUrl;
             }
-            // Ensure the URL has proper leading slash for absolute paths
-            return actualUrl.startsWith('/') ? actualUrl : `/${actualUrl}`;
+            // Use relative path for static hosting
+            return actualUrl.replace(/^\//, '');
         }
         
         // For cookieclicker specifically, also check if it's in the games folder
         if (normalizedUrl.includes('cookieclicker.html') && !normalizedUrl.includes('Cookie Clicker')) {
-            return '/games/cookieclicker/Cookie Clicker (1).html';
+            return 'games/cookieclicker/Cookie Clicker (1).html';
         }
         
-        // Return original URL, ensuring it's an absolute path for iframes
-        // If it's already absolute (starts with /), keep it
-        // If it's relative, make it absolute from root
-        if (gameUrl.startsWith('/')) {
+        // Prefer relative paths for static hosting; pass through external URLs
+        if (gameUrl.startsWith('http://') || gameUrl.startsWith('https://')) {
             return gameUrl;
-        } else if (gameUrl.startsWith('http://') || gameUrl.startsWith('https://')) {
-            return gameUrl;
-        } else {
-            // Relative path - make it absolute from root
-            return `/${gameUrl}`;
         }
+        // Strip leading slash to keep relative
+        return gameUrl.replace(/^\//, '');
     }
 
     loadGameInTab(tabId, gameUrl) {
