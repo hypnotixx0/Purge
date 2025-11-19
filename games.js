@@ -579,6 +579,17 @@ function playGame(gameFile, isEarlyAccess = false, gameId = null, gameName = nul
         }
         // Dispatch event for other systems
         window.dispatchEvent(new CustomEvent('gamePlayed', { detail: { gameId, gameName } }));
+        
+        // Immediately reflect updated play count in UI
+        if (window.gamesManager) {
+            const g = window.gamesManager.getGameById(gameId);
+            if (g) {
+                g.playCount = (g.playCount || 0) + 1;
+                g.lastPlayed = Date.now();
+                // Resort/re-render to update badges and counts
+                window.gamesManager.refreshGames();
+            }
+        }
     }
     
     // Check if tab manager is available - use tabs if on games page
@@ -761,6 +772,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Only initialize on games page, or create a minimal instance for stats
     if (document.getElementById('games-grid')) {
         gamesManager = new GamesManager();
+        
+        // Keep UI in sync when a game is played (e.g., from other triggers)
+        window.addEventListener('gamePlayed', (e) => {
+            const d = e.detail || {};
+            if (window.gamesManager && d.gameId) {
+                const g = window.gamesManager.getGameById(d.gameId);
+                if (g) {
+                    g.playCount = (g.playCount || 0) + 1;
+                    g.lastPlayed = Date.now();
+                    window.gamesManager.refreshGames();
+                }
+            }
+        });
         
         // Close preview on click outside
         const previewModal = document.getElementById('game-preview-modal');
