@@ -20,32 +20,23 @@
       <p>Generate game entries for your site. Enter the developer key to continue.</p>
     </div>
 
+    <!-- Key Gate -->
     <div class="admin-key-gate" id="admin-key-gate">
       <div class="key-box">
-        <input type="password" id="admin-key-input" placeholder="Enter developer key (unhiindev)">
+        <input type="password" id="admin-key-input" placeholder="Enter developer key">
         <button class="admin-btn primary" id="admin-key-submit"><i class="fas fa-key"></i> Unlock</button>
       </div>
       <div class="key-hint">This console is client-side only. It generates snippets you can paste into your code.</div>
     </div>
 
+    <!-- Admin Form -->
     <div class="admin-content" id="admin-content" style="display:none;">
       <div class="admin-form">
         <h2>Game Details</h2>
         <div class="form-grid">
-          <label style="display:none;">
-  <input type="text" id="game-embed-url">
-</label>
-
-          <label>
-            <span>Game Name</span>
-            <input type="text" id="game-name" placeholder="e.g., My Great Game" required>
-          </label>
-          <label>
-            <span>Description</span>
-            <input type="text" id="game-description" placeholder="Short description" required>
-          </label>
-          <label>
-            <span>Category</span>
+          <label><span>Game Name</span><input type="text" id="game-name" placeholder="e.g., My Great Game" required></label>
+          <label><span>Description</span><input type="text" id="game-description" placeholder="Short description" required></label>
+          <label><span>Category</span>
             <select id="game-category">
               <option value="idle">Idle</option>
               <option value="strategy">Strategy</option>
@@ -54,34 +45,12 @@
               <option value="puzzle">Puzzle</option>
             </select>
           </label>
-          <label>
-            <span>Genre</span>
-            <input type="text" id="game-genre" placeholder="e.g., Clicker, Card Game" required>
-          </label>
-          <label>
-            <span>Icon Emoji</span>
-            <input type="text" id="game-icon" placeholder="e.g., 🎮 or 🍪" maxlength="4">
-          </label>
-          <label>
-            <span>File Path</span>
-            <input type="text" id="game-file" placeholder="e.g., games/mygame.html" required>
-          </label>
-          <label>
-            <span>Premium</span>
-            <input type="checkbox" id="game-premium">
-          </label>
-          <label>
-            <span>Early Access</span>
-            <input type="checkbox" id="game-early">
-          </label>
-          <label>
-            <span>Tags (CSV)</span>
-            <input type="text" id="game-tags" placeholder="e.g., action, roguelike, deckbuilder">
-          </label>
-          <label>
-            <span>Game ID (optional)</span>
-            <input type="number" id="game-id" placeholder="leave blank to choose manually">
-          </label>
+          <label><span>Genre</span><input type="text" id="game-genre" placeholder="e.g., Clicker, Card Game" required></label>
+          <label><span>Icon Emoji</span><input type="text" id="game-icon" placeholder="e.g., 🎮 or 🍪" maxlength="4"></label>
+          <label><span>File Path</span><input type="text" id="game-file" placeholder="e.g., games/mygame.html" required></label>
+          <label><span>Premium</span><input type="checkbox" id="game-premium"></label>
+          <label><span>Early Access</span><input type="checkbox" id="game-early"></label>
+          <label><span>Tags (CSV)</span><input type="text" id="game-tags" placeholder="e.g., action, roguelike, deckbuilder"></label>
         </div>
         <div class="actions">
           <button class="admin-btn primary" id="generate-snippets"><i class="fas fa-code"></i> Generate Snippets</button>
@@ -89,6 +58,7 @@
         </div>
       </div>
 
+      <!-- Output Section -->
       <div class="admin-output">
         <h2>Output</h2>
         <div class="output-block">
@@ -110,6 +80,28 @@
     </div>
   </div>
 
+  <script>
+    // Theme support
+    const savedTheme = localStorage.getItem('purge_theme') || 'default';
+    document.body.classList.add(savedTheme);
+
+    // Developer key check
+    const ADMIN_KEY = 'unhiindev'; // never exposed in HTML directly
+    const keyInput = document.getElementById('admin-key-input');
+    const keyGate = document.getElementById('admin-key-gate');
+    const adminContent = document.getElementById('admin-content');
+    const keySubmit = document.getElementById('admin-key-submit');
+
+    keySubmit.addEventListener('click', () => {
+      if (keyInput.value === ADMIN_KEY) {
+        keyGate.style.display = 'none';
+        adminContent.style.display = 'block';
+        keyInput.value = '';
+      } else {
+        alert('Invalid key');
+      }
+    });
+  </script>
   <script src="admin.js"></script>
 </body>
 </html>
