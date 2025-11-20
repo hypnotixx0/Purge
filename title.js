@@ -2,9 +2,9 @@
 const words = [
     "/Purge",
     "/清除",
-    "UNHIINS PRETTY DOPE",
+    "larga vida /Purge!",
     "/제거",
-    "/გაწმენდა"
+    "Long Live Cloaking"
 ];
 
 const randomWord = words[Math.floor(Math.random() * words.length)];
