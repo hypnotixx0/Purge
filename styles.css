@@ -22,7 +22,6 @@ body {
     background: var(--black);
     color: var(--white);
     min-height: 100vh;
-    overflow-x: hidden;
 }
 
 /* Loading Screen */
