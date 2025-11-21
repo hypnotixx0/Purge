@@ -145,44 +145,6 @@ class TooltipManager {
         return this.message;
     }
     
-    // Read global settings and default chatTips to true if missing
-    getSettings() {
-        try {
-            const saved = localStorage.getItem('purge_settings');
-            const settings = saved ? JSON.parse(saved) : {};
-            if (typeof settings.chatTips !== 'boolean') settings.chatTips = true;
-            return settings;
-        } catch (e) {
-            return { chatTips: true };
-        }
-    }
-
-    // Show a theme-aware tooltip triggered by chat send
-    // Respects settings (chatTips) and shows at most once per session for chat
-    showChatTip(message = null) {
-        const settings = this.getSettings();
-        if (settings && settings.chatTips === false) {
-            return; // disabled in settings
-        }
-
-        if (sessionStorage.getItem('purge_chat_tip_shown') === 'true') {
-            return; // already shown this session for chat
-        }
-
-        if (message) {
-            this.setMessage(message);
-        }
-
-        // Do not mark general tooltip shown; only mark chat tip session flag
-        this.createTooltip();
-        sessionStorage.setItem('purge_chat_tip_shown', 'true');
-
-        // Auto-hide after configured duration
-        this.timeoutId = setTimeout(() => {
-            this.hideTooltip();
-        }, this.duration);
-    }
-    
     // Show tooltip manually (useful for testing or custom triggers)
     show(message = null, force = false) {
         if (message) {
@@ -216,13 +178,6 @@ window.setTooltipMessage = function(message) {
 // Initialize tooltip manager
 const tooltipManager = new TooltipManager();
 window.tooltipManager = tooltipManager;
-
-// Optional global helper for triggering from other modules
-window.showChatTip = function(message) {
-    if (window.tooltipManager && typeof window.tooltipManager.showChatTip === 'function') {
-        window.tooltipManager.showChatTip(message);
-    }
-};
 
 // Listen for theme changes to update tooltip colors
 window.addEventListener('themeChanged', () => {

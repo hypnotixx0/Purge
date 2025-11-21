@@ -34,7 +34,7 @@ window.showKeyPopup = function(category) {
 };
 
 const getCategoryDisplayName = (cat) => ({
-    'games': 'Games', 'apps': 'Apps', 'tools': 'Tools', 'roadmap': 'Roadmap', 'themes': 'Themes', 'chat': 'Premium Chat'
+    'games': 'Games', 'apps': 'Apps', 'tools': 'Tools', 'roadmap': 'Roadmap', 'themes': 'Themes'
 })[cat] || cat;
 
 // Initialize global variable
@@ -76,11 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const hideKeyPopup = () => {
             keyPopup.classList.remove('active');
             document.body.style.overflow = '';
-            // Reset submit button state on close to avoid stuck loading icon
-            if (submitKeyBtn) {
-                submitKeyBtn.innerHTML = '<i class="fas fa-key"></i> Access Content';
-                submitKeyBtn.disabled = false;
-            }
         };
 
         // Submit key
@@ -189,20 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         redirectUrl = 'themes.html';
                     } else if (category === 'apps') {
                         redirectUrl = 'apps.html';
-                    } else if (category === 'chat') {
-                        // Special handling for chat - grant session access and initialize
-                        console.log('💬 Initializing premium chat...');
-                        sessionStorage.setItem('purge_chat_access', 'true');
-                        if (typeof window.initPremiumChat === 'function') {
-                            window.initPremiumChat();
-                        } else {
-                            console.error('❌ Premium chat not loaded');
-                        }
-                        // Reset button state before closing to avoid stuck loading state
-                        submitKeyBtn.innerHTML = '<i class="fas fa-key"></i> Access Content';
-                        submitKeyBtn.disabled = false;
-                        hideKeyPopup();
-                        return; // Don't redirect
                     } else {
                         redirectUrl = category + '.html';
                     }

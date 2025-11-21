@@ -13,9 +13,7 @@
                 lazyLoading: true,
                 enableCache: true,
                 achievementNotifications: true,
-                gameNotifications: true,
-                chatTips: true,
-                chatNotifications: true
+                gameNotifications: true
             };
         } catch (e) {
             return {
@@ -24,9 +22,7 @@
                 lazyLoading: true,
                 enableCache: true,
                 achievementNotifications: true,
-                gameNotifications: true,
-                chatTips: true,
-                chatNotifications: true
+                gameNotifications: true
             };
         }
     }
@@ -101,20 +97,6 @@
         saveSettings(settings);
     }
 
-    function toggleChatTips() {
-        const checkbox = document.getElementById('chat-tips');
-        const settings = loadSettings();
-        settings.chatTips = checkbox.checked;
-        saveSettings(settings);
-    }
-
-    function toggleChatNotifications() {
-        const checkbox = document.getElementById('chat-notifications');
-        const settings = loadSettings();
-        settings.chatNotifications = checkbox && checkbox.checked;
-        saveSettings(settings);
-    }
-
     function exportSettings() {
         const settings = loadSettings();
         const dataStr = JSON.stringify(settings, null, 2);
@@ -166,10 +148,6 @@
         document.getElementById('enable-cache').checked = settings.enableCache;
         document.getElementById('achievement-notifications').checked = settings.achievementNotifications;
         document.getElementById('game-notifications').checked = settings.gameNotifications;
-        const chatTipsEl = document.getElementById('chat-tips');
-        if (chatTipsEl) chatTipsEl.checked = settings.chatTips;
-        const chatNotifsEl = document.getElementById('chat-notifications');
-        if (chatNotifsEl) chatNotifsEl.checked = settings.chatNotifications;
         
         // Update theme preview
         setTimeout(updateCurrentTheme, 100);
@@ -185,8 +163,6 @@
     window.toggleCache = toggleCache;
     window.toggleAchievementNotifications = toggleAchievementNotifications;
     window.toggleGameNotifications = toggleGameNotifications;
-    window.toggleChatTips = toggleChatTips;
-    window.toggleChatNotifications = toggleChatNotifications;
     window.exportSettings = exportSettings;
     window.importSettings = importSettings;
     window.handleImportFile = handleImportFile;

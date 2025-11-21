@@ -4,54 +4,33 @@ A modern web application for unblocked games and utility tools with advanced the
 
 ## Features
 
-- **Premium Key System**: Secure authentication with tiered access levels
-- **Premium Chat**: Real-time chat with moderation, themes, and anonymous usernames
-- **Theme System**: Multiple themes (Dark, Cyberpunk, Ocean, Forest, Sunset)
-- **Achievement System**: Gamification with progress tracking
-- **Tab Management**: Smart tab system with cloaking features
-- **Responsive Design**: Optimized for desktop, tablet, and mobile
-- **Rate Limiting**: Anti-spam protection in chat
-- **Moderator Mode**: Admin controls for chat management
+- 🎮 **Games Library** - Play hundreds of unblocked games
+- 🎨 **27+ Themes** - Beautiful themes with custom theme support
+- 🎭 **Tab Cloaking** - Disguise your browser tab
+- 🔒 **Blob Cloaking** - Open sites in cloaked windows
+- 📑 **Tab System** - Open multiple games in tabs
+- ⚡ **Fast & Responsive** - Optimized for performance
 - 📱 **Mobile Friendly** - Works on all devices
 
 ## File Structure
 
 ```
 Purge/
-├── index.html              # Homepage with premium chat access
+├── index.html              # Homepage
 ├── games.html              # Games library
-├── apps.html               # Apps section
-├── tools.html              # Tools page
 ├── themes.html             # Theme selector
+├── tools.html              # Tools page
 ├── roadmap.html            # Roadmap
-├── settings.html           # Settings page
 ├── blocked.html            # Access blocked page
-├── styles.css              # Main styles with CSS variables
-├── premium-chat.css        # Premium chat component styles
+├── styles.css              # Main styles
 ├── games.css               # Games page styles
-├── apps.css                # Apps page styles
 ├── themes.css              # Themes page styles
 ├── tools.css               # Tools page styles
 ├── roadmap.css             # Roadmap styles
-├── settings.css            # Settings page styles
-├── achievements.css        # Achievement system styles
-├── achievements-display.css
-├── fullscreen-indicator.css
-├── page-transitions.css
-├── quick-stats.css
+├── tooltip.css             # Tooltip styles
 ├── tab-manager.css         # Tab system styles
 ├── themes-widget.css       # Themes widget styles
-├── tooltip.css             # Tooltip styles
-├── key-system.js           # Premium key authentication
-├── premium-chat.js         # Premium chat functionality
-├── theme-manager.js        # Theme management
-├── achievements.js         # Achievement system
-├── settings.js            # Settings management
-├── tab-manager.js          # Tab management
-├── firebase-rules.json     # Firebase security rules
-├── vercel.json             # Vercel configuration
 ├── games/                  # Game files
-│   ├── game-browser.css    # Game browser styles
 │   ├── balatro.html
 │   ├── cookieclicker.html
 │   ├── kindergarden1.html
