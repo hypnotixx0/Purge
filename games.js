@@ -79,7 +79,20 @@ class GamesManager {
                 premium: true,
                 earlyAccess: true,
                 tags: ["story", "kids", "adventure", "premium", "educational"]
-            }
+            },
+            {
+                id: 10,
+                name: "Slope",
+                description: "Fast-paced 3D rolling game",
+                category: "action",
+                genre: "Action",
+                icon: "⛰️",
+                file: "games/slope.html",
+                featured: true,
+                premium: false,
+                earlyAccess: true,
+                tags: ["action", "3d",]
+            },
         ];
 
         // Add play counts from stats
