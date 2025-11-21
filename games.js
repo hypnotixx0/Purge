@@ -79,20 +79,7 @@ class GamesManager {
                 premium: true,
                 earlyAccess: true,
                 tags: ["story", "kids", "adventure", "premium", "educational"]
-            },
-            {
-                id: 10,
-                name: "Slope",
-                description: "Neon, Futursitic action game",
-                category: "action",
-                genre: "Clicker",
-                icon: "⛰️",
-                file: "games/slope.html",
-                featured: true,
-                premium: false,
-                earlyAccess: true,
-                tags: ["action", "futuristic", "popular"]
-            },
+            }
         ];
 
         // Add play counts from stats
@@ -390,9 +377,7 @@ class GamesManager {
                 <div class="game-card ${isFavorited ? 'favorite-game' : ''} ${!canPlayGame ? 'premium-game' : ''} ${isEarlyAccess ? 'early-access-game' : ''}" 
                      data-game-id="${game.id}"
                      data-index="${index}"
-                     onclick="${canPlayGame ? `playGame('${game.file}', ${isEarlyAccess}, ${game.id}, '${game.name.replace(/'/g, "\\'")}')` : 'showPremiumRequired()'}"
-                     onmouseenter="showGamePreview(${game.id})"
-                     onmouseleave="hideGamePreview()">
+                     onclick="showGamePreview(${game.id})">
                     ${!canPlayGame ? `<div class="premium-overlay"><div class="premium-lock"><i class="fas fa-crown"></i><span>Premium Required</span></div></div>` : ''}
                     ${isEarlyAccess ? `<div class="early-access-overlay"><div class="early-access-warning"><i class="fas fa-exclamation-triangle"></i><span>Early Access</span><small>This game is in development and may have bugs</small></div></div>` : ''}
                     <div class="game-icon">${game.icon}</div>
@@ -594,6 +579,17 @@ function playGame(gameFile, isEarlyAccess = false, gameId = null, gameName = nul
         }
         // Dispatch event for other systems
         window.dispatchEvent(new CustomEvent('gamePlayed', { detail: { gameId, gameName } }));
+        
+        // Immediately reflect updated play count in UI
+        if (window.gamesManager) {
+            const g = window.gamesManager.getGameById(gameId);
+            if (g) {
+                g.playCount = (g.playCount || 0) + 1;
+                g.lastPlayed = Date.now();
+                // Resort/re-render to update badges and counts
+                window.gamesManager.refreshGames();
+            }
+        }
     }
     
     // Check if tab manager is available - use tabs if on games page
@@ -712,53 +708,53 @@ function goHome() {
 let previewTimeout = null;
 function showGamePreview(gameId) {
     clearTimeout(previewTimeout);
-    previewTimeout = setTimeout(() => {
-        const modal = document.getElementById('game-preview-modal');
-        const content = document.getElementById('preview-content');
-        if (!modal || !content || !gamesManager) return;
+    const modal = document.getElementById('game-preview-modal');
+    const content = document.getElementById('preview-content');
+    if (!modal || !content || !gamesManager) return;
 
-        const game = gamesManager.games.find(g => g.id === gameId);
-        if (!game) return;
+    const game = gamesManager.games.find(g => g.id === gameId);
+    if (!game) return;
 
-        const stats = window.gameStats ? window.gameStats.getGameStats(gameId) : null;
-        const playCount = stats ? stats.playCount : 0;
-        const tags = game.tags || [];
+    const stats = window.gameStats ? window.gameStats.getGameStats(gameId) : null;
+    const playCount = stats ? stats.playCount : 0;
+    const tags = game.tags || [];
+    const userLevel = sessionStorage.getItem('purge_auth_level') || 'none';
+    const canPlay = !game.premium || userLevel === 'premium';
 
-        content.innerHTML = `
-            <div class="preview-header">
-                <div class="preview-icon">${game.icon}</div>
-                <div class="preview-title">
-                    <h3>${game.name}</h3>
-                    <p>${game.description}</p>
-                </div>
+    content.innerHTML = `
+        <div class="preview-header">
+            <div class="preview-icon">${game.icon}</div>
+            <div class="preview-title">
+                <h3>${game.name}</h3>
+                <p>${game.description}</p>
             </div>
-            <div class="preview-details">
-                <div class="preview-stat">
-                    <i class="fas fa-tag"></i>
-                    <span>${game.genre}</span>
-                </div>
-                ${playCount > 0 ? `
-                <div class="preview-stat">
-                    <i class="fas fa-play"></i>
-                    <span>${playCount} plays</span>
-                </div>
-                ` : ''}
-                ${game.premium ? '<div class="preview-badge premium"><i class="fas fa-crown"></i> Premium</div>' : ''}
-                ${game.earlyAccess ? '<div class="preview-badge early"><i class="fas fa-flask"></i> Early Access</div>' : ''}
+        </div>
+        <div class="preview-details">
+            <div class="preview-stat">
+                <i class="fas fa-tag"></i>
+                <span>${game.genre}</span>
             </div>
-            ${tags.length > 0 ? `
-            <div class="preview-tags">
-                ${tags.map(tag => `<span class="preview-tag">${tag}</span>`).join('')}
+            ${playCount > 0 ? `
+            <div class="preview-stat">
+                <i class="fas fa-play"></i>
+                <span>${playCount} plays</span>
             </div>
             ` : ''}
-            <div class="preview-actions">
-                <button class="preview-btn primary" onclick="playGame('${game.file}', ${game.earlyAccess}, ${game.id}, '${game.name.replace(/'/g, "\\'")}'); hideGamePreview();">
-                    <i class="fas fa-play"></i> Play Now
-                </button>
-            </div>
-        `;
-        modal.classList.add('active');
-    }, 500);
+            ${game.premium ? '<div class="preview-badge premium"><i class="fas fa-crown"></i> Premium</div>' : ''}
+            ${game.earlyAccess ? '<div class="preview-badge early"><i class="fas fa-flask"></i> Early Access</div>' : ''}
+        </div>
+        ${tags.length > 0 ? `
+        <div class="preview-tags">
+            ${tags.map(tag => `<span class="preview-tag">${tag}</span>`).join('')}
+        </div>
+        ` : ''}
+        <div class="preview-actions">
+            ${canPlay
+                ? `<button class="preview-btn primary" onclick="playGame('${game.file}', ${game.earlyAccess}, ${game.id}, '${game.name.replace(/'/g, "\\'")}'); hideGamePreview();"><i class="fas fa-play"></i> Play Now</button>`
+                : `<button class="preview-btn primary" onclick="showPremiumRequired();"><i class="fas fa-crown"></i> Get Premium</button>`}
+        </div>
+    `;
+    modal.classList.add('active');
 }
 
 function hideGamePreview() {
@@ -776,6 +772,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Only initialize on games page, or create a minimal instance for stats
     if (document.getElementById('games-grid')) {
         gamesManager = new GamesManager();
+        
+        // Keep UI in sync when a game is played (e.g., from other triggers)
+        window.addEventListener('gamePlayed', (e) => {
+            const d = e.detail || {};
+            if (window.gamesManager && d.gameId) {
+                const g = window.gamesManager.getGameById(d.gameId);
+                if (g) {
+                    g.playCount = (g.playCount || 0) + 1;
+                    g.lastPlayed = Date.now();
+                    window.gamesManager.refreshGames();
+                }
+            }
+        });
         
         // Close preview on click outside
         const previewModal = document.getElementById('game-preview-modal');
@@ -805,5 +814,4 @@ function openNewTabFromGames() {
     if (window.tabManager) {
         window.tabManager.openNewTab();
     }
-
 }

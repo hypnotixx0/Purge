@@ -6,15 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>/Purge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/tooltip.css">
-    <link rel="stylesheet" href="/themes-widget.css">
-    <link rel="stylesheet" href="/tab-manager.css">
-    <link rel="stylesheet" href="/quick-stats.css">
-    <link rel="stylesheet" href="/achievements.css">
-    <link rel="stylesheet" href="/achievements-display.css">
-    <link rel="stylesheet" href="/page-transitions.css">
-    <link rel="stylesheet" href="/fullscreen-indicator.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tooltip.css">
+    <link rel="stylesheet" href="themes-widget.css">
+    <link rel="stylesheet" href="tab-manager.css">
+    <link rel="stylesheet" href="quick-stats.css">
+    <link rel="stylesheet" href="achievements.css">
+    <link rel="stylesheet" href="achievements-display.css">
+    <link rel="stylesheet" href="page-transitions.css">
+    <link rel="stylesheet" href="fullscreen-indicator.css">
+    <link rel="stylesheet" href="premium-chat.css">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+      /* Disable scrolling on homepage */
+      html, body { overflow: hidden; }
+    </style>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -89,7 +95,8 @@
                     <p>Keep up with expected updates</p>
                     <div class="box-glow"></div>
                 </div>
-            </div>
+
+                            </div>
         </div>
     </div>
 
@@ -145,6 +152,26 @@
     <div class="settings-link" onclick="window.location.href='settings.html'" title="Settings">
         <i class="fas fa-cog"></i>
     </div>
+    <div class="chat-link" onclick="document.getElementById('under-modal').classList.add('active')" title="Premium Chat">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Admin Floating Icon -->
+    <a class="admin-floating" href="admin.html" title="Admin Console (unhiindev)">
+        <i class="fas fa-tools"></i>
+    </a>
+
+    <!-- Under Construction Modal for Chat -->
+    <div id="under-modal" class="under-modal" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="under-card">
+            <h2><i class="fas fa-wrench"></i> Chat Under Construction</h2>
+            <p>We are working on the backend portion of chat to make sure it’s reliable and persistent for everyone. Thanks for your patience.</p>
+            <div class="under-actions">
+                <button class="btn btn-secondary" onclick="document.getElementById('under-modal').classList.remove('active')">Close</button>
+                <a class="btn btn-primary" href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Discord Button -->
     <button id="discord-btn" class="discord-btn">
@@ -157,45 +184,50 @@
         <p>&copy; 2025 /Purge. Anyone posing as this site that isnt unhiin is false.</p>
     </footer>
 
-    <script src="/debug.js"></script>
-    <script src="/utils.js"></script>
-    <script src="/title.js"></script>
-    <script src="/discord.js"></script>
-    <script src="/description.js"></script>
-    <script src="/key-system.js"></script>
-    <script src="/loading.js"></script>
-    <script src="/tab-cloaking.js"></script>
-    <script src="/theme-manager.js"></script>
-    <script src="/themes-widget.js"></script>
-    <script src="/snow.js"></script>
-    <script src="/tooltip-manager.js"></script>
-    <script src="/keyboard-shortcuts.js"></script>
-    <script src="/keyboard-shortcuts-enhanced.js"></script>
-    <script src="/recent-games.js"></script>
-    <script src="/game-stats.js"></script>
-    <script src="/search-history.js"></script>
-    <script src="/help-modal.js"></script>
-    <script src="/back-to-top.js"></script>
-    <script src="/accessibility.js"></script>
-    <script src="/tab-manager.js"></script>
-    <script src="/games.js"></script>
-    <script src="/achievements.js"></script>
-    <script src="/achievements-display.js"></script>
-    <script src="/quick-stats.js"></script>
-    <script src="/browser-info.js"></script>
-    <script src="/page-transitions.js"></script>
-    <script src="/fullscreen-indicator.js"></script>
+    <script src="debug.js"></script>
+    <script src="utils.js"></script>
+    <script src="title.js"></script>
+    <script src="discord.js"></script>
+    <script src="description.js"></script>
+    <script src="key-system.js"></script>
+    <script src="loading.js"></script>
+    <script src="tab-cloaking.js"></script>
+    <script src="theme-manager.js"></script>
+    <script src="themes-widget.js"></script>
+    <script src="snow.js"></script>
+    <script src="tooltip-manager.js"></script>
+    <script src="keyboard-shortcuts.js"></script>
+    <script src="keyboard-shortcuts-enhanced.js"></script>
+    <script src="recent-games.js"></script>
+    <script src="game-stats.js"></script>
+    <script src="search-history.js"></script>
+    <script src="help-modal.js"></script>
+    <script src="back-to-top.js"></script>
+    <script src="accessibility.js"></script>
+    <script src="tab-manager.js"></script>
+    <script src="games.js"></script>
+    <script src="achievements.js"></script>
+    <script src="achievements-display.js"></script>
+    <script src="quick-stats.js"></script>
+    <script src="browser-info.js"></script>
+    <script src="page-transitions.js"></script>
+    <script src="fullscreen-indicator.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+    <script src="premium-chat.js"></script>
     
     <!-- Register Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('sw.js')
                     .then((reg) => console.log('Service Worker registered'))
                     .catch((err) => console.log('Service Worker registration failed:', err));
             });
         }
     </script>
 </body>
-
 </html>

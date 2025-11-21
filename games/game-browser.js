@@ -23,8 +23,7 @@ class GameBrowser {
             initialUrl = 'kindergarden-1.html';
         } else if (window.location.pathname.includes('kindergarden2')) {
             initialUrl = 'kindergarden-2.html';
-        } else if (window.location.pathname.includes('slope')) {
-            initialUrl = 'slope.html';
+        }
         
         // Add initial URL to history
         this.addToHistory(initialUrl);
@@ -328,5 +327,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('🎮 Game browser ready!');
     console.log('📍 Current page:', window.location.pathname);
-
 });

@@ -1,9 +1,9 @@
 // description.js - Updated for /Purge
 const descriptionWords = [
     "Unblocked games and tools",
-    "Uhiins dope", 
+    "Thanks for the help testers", 
     "Peep the discord",
-    "Make sure to get a key"
+    "Make sure to get a key",
 ];
 
 document.addEventListener("DOMContentLoaded", function() {
