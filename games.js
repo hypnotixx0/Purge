@@ -79,7 +79,20 @@ class GamesManager {
                 premium: true,
                 earlyAccess: true,
                 tags: ["story", "kids", "adventure", "premium", "educational"]
-            }
+            },
+            {
+                id: 10,
+                name: "Slope",
+                description: "Neon, Futursitic action game",
+                category: "action",
+                genre: "Clicker",
+                icon: "⛰️",
+                file: "games/slope.html",
+                featured: true,
+                premium: false,
+                earlyAccess: true,
+                tags: ["action", "futuristic", "popular"]
+            },
         ];
 
         // Add play counts from stats
@@ -792,4 +805,5 @@ function openNewTabFromGames() {
     if (window.tabManager) {
         window.tabManager.openNewTab();
     }
+
 }
