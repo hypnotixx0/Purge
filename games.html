@@ -112,27 +112,47 @@
     </footer>
 
     <!-- Load scripts in correct order -->
-    <script src="/debug.js"></script>
-    <script src="/utils.js"></script>
-    <script src="/favorites-manager.js"></script>
-    <script src="/recent-games.js"></script>
-    <script src="/game-stats.js"></script>
-    <script src="/search-history.js"></script>
-    <script src="/games.js"></script>
-    <script src="/keyboard-shortcuts.js"></script>
-    <script src="/keyboard-shortcuts-enhanced.js"></script>
-    <script src="/help-modal.js"></script>
+   <!-- Core Utilities & Debug -->
+<script src="/debug.js"></script>
+<script src="/utils.js"></script>
 
-    <script src="/tab-cloaking.js"></script>
-    <script src="/theme-manager.js"></script>
-    <script src="/snow.js"></script>
-    <script src="/tooltip-manager.js"></script>
-    <script src="/back-to-top.js"></script>
-    <script src="/accessibility.js"></script>
-    <script src="/tab-manager.js"></script>
-    <script src="/achievements.js"></script>
-    <script src="/browser-info.js"></script>
-    <script src="/page-transitions.js"></script>
-    <script src="/fullscreen-indicator.js"></script>
+<!-- Core Game Initialization -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize the game grid first
+        if (typeof initGames === 'function') initGames();
+
+        // Initialize favorites, recent games, game stats, and search history
+        if (typeof initFavorites === 'function') initFavorites();
+        if (typeof initRecentGames === 'function') initRecentGames();
+        if (typeof initGameStats === 'function') initGameStats();
+        if (typeof initSearchHistory === 'function') initSearchHistory();
+    });
+</script>
+<script src="/games.js"></script>
+<script src="/favorites-manager.js"></script>
+<script src="/recent-games.js"></script>
+<script src="/game-stats.js"></script>
+<script src="/search-history.js"></script>
+
+<!-- Keyboard & Modals -->
+<script src="/keyboard-shortcuts.js"></script>
+<script src="/keyboard-shortcuts-enhanced.js"></script>
+<script src="/help-modal.js"></script>
+
+<!-- UI Enhancements & Page Features -->
+<script src="/tab-cloaking.js"></script>
+<script src="/theme-manager.js"></script>
+<script src="/snow.js"></script>
+<script src="/tooltip-manager.js"></script>
+<script src="/back-to-top.js"></script>
+<script src="/accessibility.js"></script>
+<script src="/tab-manager.js"></script>
+<script src="/achievements.js"></script>
+<script src="/browser-info.js"></script>
+<script src="/page-transitions.js"></script>
+<script src="/fullscreen-indicator.js"></script>
+
 </body>
+
 </html>
